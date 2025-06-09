@@ -29,20 +29,20 @@ jobs:
     - name: Docker login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
-        DOCKER_PSWD: ${{ secrets.DOCKER_PSWD }}
+        DOCKER_PSWD: ${{ secrets.DOCKER_PSWD }}        
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PSWD    
+    
+    - name: Build the Docker image
+      env:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PSWD
-        echo "New version: $NEW_VERSION !!!!!!!!!!!!!"
+        docker build --tag msalas53/docker-graphql:$NEW_VERSION .
+        docker build --tag msalas53/docker-graphql:latest .
 
-    
-    
-    # - name: Build the Docker image
-    #   run: |
-    #     docker build --tag msalas53/docker-graphql:0.0.2 .
-    #     docker build --tag msalas53/docker-graphql:latest .
-
-    # - name: Push Docker image
-    #   run: |
-    #     docker push msalas53/docker-graphql:0.0.2
-    #     docker push msalas53/docker-graphql:latest
+    - name: Push Docker image
+      env:
+          NEW_VERSION: ${{ steps.version.outputs.version }}
+      run: |
+        docker push msalas53/docker-graphql:$NEW_VERSION
+        docker push msalas53/docker-graphql:latest

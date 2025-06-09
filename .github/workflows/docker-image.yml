@@ -28,8 +28,10 @@ jobs:
     
     - name: Build the Docker image
       run: |
-        docker build --tag msalas53/docker-graphql:0.0.1 .
+        docker build --tag msalas53/docker-graphql:0.0.2 .
+        docker build --tag msalas53/docker-graphql:latest .
 
     - name: Push Docker image
       run: |
-        docker push msalas53/docker-graphql:0.0.1
+        docker build --tag msalas53/docker-graphql:0.0.2
+        docker build --tag msalas53/docker-graphql:latest
